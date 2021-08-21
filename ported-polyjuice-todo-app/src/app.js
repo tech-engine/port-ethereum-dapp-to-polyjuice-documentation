@@ -1,4 +1,5 @@
 import { PolyjuiceHttpProvider } from '@polyjuice-provider/web3'
+import { AddressTranslator } from 'nervos-godwoken-integration'
 var App = {
     loading: false,
     contracts: {},
@@ -7,6 +8,7 @@ var App = {
         await App.loadAccount()
         await App.loadContract()
         await App.render()
+	await App.getPolyJuiceAddr()
     },
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
   loadWeb3: async () => {
@@ -128,6 +130,11 @@ var App = {
       loader.hide()
       content.show()
     }
+  },
+  getPolyJuiceAddr: async () => {
+	const addressTranslator = new AddressTranslator()
+	const polyjuiceAddress = addressTranslator.ethAddressToGodwokenShortAddress(App.account)
+	$('#poly-address').text(polyjuiceAddress)
   }
 }
 
